@@ -66,11 +66,9 @@ Developers have been doing this since the dawn of time.
 
 ## Demo
 
-Download the latest build here:
+Download the latest build on:
 
 **GitHub Releases**
-
-If the link is empty, that means I forgot to upload the build.
 
 ---
 

@@ -16,7 +16,7 @@ class Game {
 public:
     Game(int w, int h)
         : baseWidth(w), baseHeight(h),
-          width(w), haight(h),
+          width(w), height(h),
           moves(0), score(0),
           level(1), gameOver(false) {
         std::srand(static_cast<unsigned>(std::time(nullptr)));
