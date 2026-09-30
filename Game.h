@@ -11,7 +11,20 @@ struct Vec2
 
     bool operator==(const Vec2& other) const
     {
-        return x == other.x && y == other.y;
+        return x == other.x &&
+            y == other.y;
+    }
+};
+
+struct PowerUp
+{
+    Vec2 position;
+    bool active;
+
+    PowerUp()
+    {
+        position = {0, 0};
+        active = false;
     }
 };
 
