@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include <vector>
-#include <string>
 
 struct Vec2
 {
@@ -12,7 +11,7 @@ struct Vec2
     bool operator==(const Vec2& other) const
     {
         return x == other.x &&
-            y == other.y;
+               y == other.y;
     }
 };
 
@@ -20,14 +19,6 @@ struct PowerUp
 {
     Vec2 position;
     bool active;
-    int duration;
-
-    PowerUp()
-        : active(false),
-          duration(0)
-    {
-        position = {0, 0};
-    }
 };
 
 class Game
@@ -49,8 +40,9 @@ private:
     int highScore;
     int moves;
 
-    // Player state
-    int lives;   
+    // Status
+    int lives;
+    int timeRemaining;   
     bool gameOver;
 
     // Statistics
@@ -58,30 +50,31 @@ private:
     int treasuresRequired;
     int enemiesAvoided;
 
-    // Timer
-    int timeRemaining;
-
-    // Power-ups
+    // Player effects
     bool speedBoost;
     int speedBoostTurns;
-    PowerUp powerUp;
 
     // Entities
     Vec2 player;
     Vec2 enemy;
 
-    // Multiple treasures (v1.4.0)
+    std::vector<Vec2> treasures;
     std::vector<Vec2> obstacles;
+
+    PowerUp powerUp;
 
 private:
     //Main loop
     void draw();
+    void drawHUD();
     void update();
     void handleInput();
 
-    // Level control
+    // Level
     void resetLevel();
     void nextLevel();
+
+    // Generation
     void generateMaze();
     void generateObstacles(int count);
 
@@ -95,7 +88,7 @@ private:
     void collectPowerUp();
     void updatePowerUps();
 
-    // Enemy AI
+    // Enemy
     void moveEnemy();
     void playerCaught();
 
@@ -106,28 +99,27 @@ private:
     bool tryMovePlayer(char input);
     bool tryMovePlayerDirection(int dx, int dy);
 
-    // Collision checks
+    // Collision
     bool isObstacle(const Vec2& pos) const;
     bool isTreasure(const Vec2& pos) const;
     bool isPositionOccupied(const Vec2& pos) const;
     bool isInsideBounds(const Vec2& pos) const;
 
-    // Utility
+    // Utilities
     Vec2 randomPosition();
     void clearScreen();
     void waitForEnter();
 
-    // Score management
+    // Score
     void loadHighScore();
     void saveHighScore();
     void updateHighScore();
 
-    // Statistics
+    // Stats
     void resetStatistics();
 
-    // UI
-    void drawHUD();
+    // End game
     void drawGameOverScreen();
 };
 
-#endif // GAME_H
+#endif
