@@ -20,11 +20,13 @@ struct PowerUp
 {
     Vec2 position;
     bool active;
+    int duration;
 
     PowerUp()
+        : active(false),
+          duration(0)
     {
         position = {0, 0};
-        active = false;
     }
 };
 
@@ -35,50 +37,97 @@ public:
     void run();
 
 private:
+    // Map
     int baseWidth;
     int baseHeight;
     int width;
     int height;
 
+    // Progression
     int level;
     int score;
     int highScore;
     int moves;
-    int lives;
 
+    // Player state
+    int lives;   
     bool gameOver;
 
+    // Statistics
+    int treasuresCollected;
+    int treasuresRequired;
+    int enemiesAvoided;
+
+    // Timer
+    int timeRemaining;
+
+    // Power-ups
+    bool speedBoost;
+    int speedBoostTurns;
+    PowerUp powerUp;
+
+    // Entities
     Vec2 player;
     Vec2 enemy;
-    Vec2 treasure;
 
+    // Multiple treasures (v1.4.0)
     std::vector<Vec2> obstacles;
 
+private:
+    //Main loop
     void draw();
     void update();
     void handleInput();
 
+    // Level control
     void resetLevel();
     void nextLevel();
+    void generateMaze();
     void generateObstacles(int count);
 
-    void moveEnemy();
-    bool tryMovePlayer(char input);
+    // Treasure system
+    void spawnTreasures();
+    void collectTreasure();
+    bool allTreasuresCollected() const;
 
+    // Power-ups
+    void spawnPowerUp();
+    void collectPowerUp();
+    void updatePowerUps();
+
+    // Enemy AI
+    void moveEnemy();
+    void playerCaught();
+
+    // Timer
+    void updateTimer();
+
+    // Movement
+    bool tryMovePlayer(char input);
+    bool tryMovePlayerDirection(int dx, int dy);
+
+    // Collision checks
     bool isObstacle(const Vec2& pos) const;
+    bool isTreasure(const Vec2& pos) const;
     bool isPositionOccupied(const Vec2& pos) const;
     bool isInsideBounds(const Vec2& pos) const;
 
+    // Utility
     Vec2 randomPosition();
     void clearScreen();
     void waitForEnter();
 
+    // Score management
     void loadHighScore();
     void saveHighScore();
     void updateHighScore();
 
-    void playerCaught();
+    // Statistics
+    void resetStatistics();
+
+    // UI
+    void drawHUD();
     void drawGameOverScreen();
 };
 
-#endif
+#endif // GAME_H
